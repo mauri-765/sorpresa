@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Alguien Especial 🌹🐻</title>
+    <style>
+        :root {
+            --pink-light: #ffebee;
+            --pink-main: #ff4081;
+            --pink-dark: #c2185b;
+            --text-color: #4a148c;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fce4ec 0%, #ffe0b2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Contenedor de la carta */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 3px solid #ffb74d; /* Toque dorado/oso */
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Decoraciones fijas de osos y rosas */
+        .deco-icon {
+            font-size: 3rem;
+            margin: 10px;
+            display: inline-block;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        h1 {
+            color: var(--pink-dark);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Sección de piropos */
+        .compliment-box {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--text-color);
+            font-style: italic;
+            margin: 20px 0;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* Botón interactivo */
+        .btn {
+            background: linear-gradient(45deg, var(--pink-main), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Veredicto final oculto al inicio */
+        .final-message {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--pink-dark);
+            font-weight: bold;
+            margin-top: 25px;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        /* Animación de pétalos/osos cayendo */
+        .falling-element {
+            position: absolute;
+            top: -20px;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 1.5rem;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div>
+            <span class="deco-icon">🌹</span>
+            <span class="deco-icon">🐻</span>
+            <span class="deco-icon">🌹</span>
+        </div>
+        
+        <h1 id="greeting">¡Hola, persona hermosa! ✨</h1>
+        
+        <div class="compliment-box" id="compliment-text">
+            Tengo un par de cosas que decirte hoy... ¡Haz clic abajo!
+        </div>
+
+        <button class="btn" id="action-btn" onclick="nextStep()">Ver algo lindo</button>
+
+        <div class="final-message" id="final-verdict">
+            🐻 ¡Eres la mejor de todo el universo! 🌹
+        </div>
+    </div>
+
+    <script>
+        // Lista de piropos que irán cambiando
+        const compliments = [
+            "¿Acaso eres maga? Porque cada vez que te miro, todo lo demás desaparece. ✨",
+            "Ni la rosa más hermosa del jardín se compara con tu sonrisa. 🌹",
+            "Si los abrazos de oso fueran segundos, te daría una vida entera de apapachos. 🐻",
+            "Tu única imperfección es no darte cuenta de lo increíble que eres. ❤️"
+        ];
+
+        let currentStep = 0;
+
+        function nextStep() {
+            const complimentText = document.getElementById('compliment-text');
+            const actionBtn = document.getElementById('action-btn');
+            const finalVerdict = document.getElementById('final-verdict');
+            const greeting = document.getElementById('greeting');
+
+            if (currentStep < compliments.length) {
+                // Cambiar el saludo inicial si sigue ahí
+                if(currentStep === 0) {
+                    greeting.innerText = "¡Para ti! 💖";
+                }
+                
+                // Mostrar piropo actual
+                complimentText.innerText = compliments[currentStep];
+                currentStep++;
+                
+                // Cambiar texto del botón
+                if (currentStep === compliments.length) {
+                    actionBtn.innerText = "¡Última cosa!";
+                } else {
+                    actionBtn.innerText = "Dime más...";
+                }
+            } else {
+                // Pantalla final: ocultar botón y cuadro intermedio, mostrar mensaje definitivo
+                complimentText.style.display = 'none';
+                actionBtn.style.display = 'none';
+                finalVerdict.style.display = 'block';
+                greeting.innerText = "¡Confirmado! 🎉";
+            }
+        }
+
+        // Generador de lluvia de osos y rosas automática
+        function createFallingElements() {
+            const elements = ['🌹', '🐻', '🌸', '🧸', '✨'];
+            const container = document.body;
+            
+            setInterval(() => {
+                const element = document.createElement('div');
+                element.classList.add('falling-element');
+                
+                // Elegir icono al azar
+                element.innerText = elements[Math.floor(Math.random() * elements.length)];
+                
+                // Posición horizontal y tamaño aleatorios
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                
+                // Duración de la caída aleatoria (entre 4 y 8 segundos)
+                const duration = Math.random() * 4 + 4;
+                element.style.animationDuration = duration + 's';
+                
+                // Opacidad ligera para que no estorbe la lectura
+                element.style.opacity = Math.random() * 0.7 + 0.3;
+
+                container.appendChild(element);
+
+                // Eliminar el elemento cuando termine de caer
+                setTimeout(() => {
+                    element.remove();
+                }, duration * 1000);
+            }, 400); // Aparece un elemento nuevo cada 400ms
+        }
+
+        // Iniciar la lluvia al cargar la página
+        window.onload = createFallingElements;
+    </script>
+</body>
+</html>
